@@ -37,8 +37,8 @@ export default function OnboardingScreen () {
                         <LottieView source={require('../assets/animations/welcome.json')} autoPlay loop />
                     </View>
                 ),
-                title: 'Boost Productivity',
-                subtitle: 'Try to program everyday & boost productivity',
+                title: 'Boost Your Skills',
+                subtitle: 'Learn new Languages & become proficieny at it ',
             },
             {
                 backgroundColor: '#fef3c7',
@@ -47,8 +47,8 @@ export default function OnboardingScreen () {
                         <LottieView source={require('../assets/animations/work.json')} autoPlay loop />
                     </View>
                 ),
-                title: 'Work Seamlessly',
-                subtitle: 'Get your work done seamlessly without interuption',
+                title: 'Join Live Classes',
+                subtitle: 'Attend live session from our language expert',
             },
             {
                 backgroundColor: '#a78bfa',
