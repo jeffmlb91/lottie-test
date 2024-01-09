@@ -1,5 +1,5 @@
-import React from 'react';
-import { ImageBackground, Text, TouchableOpacity, View } from 'react-native';
+import React, { useState, useEffect, useRef} from 'react';
+import { ImageBackground, Text, TouchableOpacity, View, Animated } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import tw from 'twrnc';
 import { LinearGradient } from 'expo-linear-gradient';
@@ -7,10 +7,40 @@ import { LinearGradient } from 'expo-linear-gradient';
 // Replace with the path to your local image or a remote URL
 const backgroundImage = require('../assets/images/cropped04.avif');
 
+const images  = [
+  require('../assets/images/cropped04.avif'),
+  require('../assets/images/home3.avif'),
+  require('../assets/images/homme1.png'),
+  require('../assets/images/portrait-free-photo.jpeg')
+]
+
 export default function WelcomeScreen() {
+
+  const [currentImage, setCurrentImage] = useState(0);
+  const fadeAnim = useRef(new Animated.Value(0)).current //Initial fade animation value
+
+  // Change image every 5 seconds 
+  useEffect(() => {
+    const interval = setInterval(() => {
+      fadeAnim.setValue(0); // Reset the fade animation
+      setCurrentImage((prevCurrentImage) => (prevCurrentImage + 1) % images.length);
+    }, 9000);
+
+    //Start the fade-in animation
+    Animated.timing(fadeAnim, {
+      toValue: 1,
+      duration: 500,
+      useNativeDriver: true,
+    }).start();
+
+    return () => clearInterval(interval);
+  },[currentImage, fadeAnim]);
+
   return (
     <SafeAreaView style={tw`flex-1`}>
-      <ImageBackground source={backgroundImage} style={tw`flex-1 justify-end`}>
+      {/**Animated background image with fade transition */}
+      <Animated.View style={{...tw`flex-1 justify-end`, opacity: fadeAnim}}>
+      <ImageBackground source={images[currentImage]} style={tw`flex-1 justify-end`}>
 
         {/* Gradient Overlay */}
         <LinearGradient
@@ -46,6 +76,7 @@ export default function WelcomeScreen() {
           </TouchableOpacity>
         </View>
       </ImageBackground>
+      </Animated.View>
     </SafeAreaView>
   );
 }
